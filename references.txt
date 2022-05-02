@@ -1,0 +1,4 @@
+https://gist.github.com/lmas/c13d1c9de3b2224f9c26435eb56e6ef3
+https://www.devdungeon.com/content/packet-capture-injection-and-analysis-gopacket
+https://pkg.go.dev/github.com/google/gopacket/pcap
+https://pkg.go.dev/golang.org/x/net/icmp
