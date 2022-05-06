@@ -43,7 +43,9 @@ func main() {
 
 		applicationLayer := packet.ApplicationLayer()
 		if applicationLayer != nil {
-			fmt.Printf("%x\n", string(applicationLayer.Payload()))
+			message:=string(applicationLayer.Payload())
+//			fmt.Printf("%x\n", string(applicationLayer.Payload()))
+			fmt.Printf("%s\n",message)
 		}
 
 	}
