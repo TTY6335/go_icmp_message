@@ -14,7 +14,7 @@ var (
 	snapshot_len int32  = 1024
 	promiscuous  bool   = false
 	err          error
-	timeout      time.Duration = 0
+	timeout      time.Duration = 1
 	handle       *pcap.Handle
 )
 
@@ -39,11 +39,11 @@ func main() {
 
 		ipLayer:=packet.Layer(layers.LayerTypeIPv4)
 		ip, _ :=ipLayer.(*layers.IPv4)
-		fmt.Printf("From %s to %s\n", ip.SrcIP, ip.DstIP)
+		fmt.Printf("%v From %s to %s\n", time.Now(),ip.SrcIP, ip.DstIP)
 
 		applicationLayer := packet.ApplicationLayer()
 		if applicationLayer != nil {
-			fmt.Printf("%s\n", string(applicationLayer.Payload()))
+			fmt.Printf("%x\n", string(applicationLayer.Payload()))
 		}
 
 	}
