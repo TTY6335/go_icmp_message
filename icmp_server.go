@@ -12,14 +12,7 @@ import (
 )
 
 func send_icmp(dst_ip *net.IPAddr,IcmpPcaket *icmp.PacketConn, host_ip string,send_data string){
-	fmt.Printf("A%T %s %s\n",IcmpPcaket,host_ip,send_data)
-
-//	//Resolve Destination IP DNS
-//	dst_ip, err := net.ResolveIPAddr("ip4", host_ip)
-//	if err != nil {
-//		log.Fatalf("ResolveIPAddr: %v", err)
-//	}
-
+	fmt.Printf("%s %s\n",host_ip,send_data)
 
 	//Make ICMP Message
 	wm := icmp.Message{
@@ -70,7 +63,7 @@ func main() {
 
 	for i := 1; i <= 20; i++ {
 
-		send_icmp(dst_ip,c,host,"8888")
+		send_icmp(dst_ip,c,host,"192.168.3.20")
 
 	}
 }
