@@ -13,13 +13,7 @@ import (
 
 func main() {
 
-	host := "10.0.0.9"
-
-	//Resolve Destination IP DNS
-	dst_ip, err := net.ResolveIPAddr("ip4", host)
-	if err != nil {
-		log.Fatalf("ResolveIPAddr: %v", err)
-	}
+	host := "8.8.8.8"
 
 	//Start Listen ICPM
 	c, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
@@ -28,14 +22,21 @@ func main() {
 	}
 	defer c.Close()
 
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 100; i++ {
+
+		//Resolve Destination IP DNS
+		dst_ip, err := net.ResolveIPAddr("ip4", host)
+		if err != nil {
+			log.Fatalf("ResolveIPAddr: %v", err)
+		}
+
 		//Make ICMP Message
 		wm := icmp.Message{
 			Type: ipv4.ICMPTypeEcho,
 			Code: 0,
 			Body: &icmp.Echo{
 				ID: os.Getpid() & 0xffff, Seq: i,
-				Data: []byte("WORLD"),
+				Data: []byte("8888"),
 			},
 		}
 		wb, err := wm.Marshal(nil)
@@ -44,17 +45,16 @@ func main() {
 		}
 		//Send ICMP Packet
 		start := time.Now()
-		n, err := c.WriteTo(wb, dst_ip)
+		_,_ = c.WriteTo(wb, dst_ip)
 		if err != nil {
 			log.Fatalf("WriteTo: %v", err)
 		}
 
 		c.SetReadDeadline(time.Now().Add(10 * time.Second))
 		reply := make([]byte, 1500)
-		n, peer_ip, err := c.ReadFrom(reply)
+		_, peer_ip, err := c.ReadFrom(reply)
 		duration := time.Since(start)
 
-		rm, err := icmp.ParseMessage(ipv4.ICMPTypeEcho.Protocol(), reply[:n])
-		fmt.Println(rm.Body, peer_ip, duration)
+		fmt.Println(peer_ip,start,duration,start.Add(duration))
 	}
 }
