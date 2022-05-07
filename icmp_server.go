@@ -12,7 +12,7 @@ import (
 )
 
 func send_icmp(dst_ip *net.IPAddr,IcmpPcaket *icmp.PacketConn, host_ip string,send_data string){
-	fmt.Printf("%s %s\n",host_ip,send_data)
+//	fmt.Printf("%s %s\n",host_ip,send_data)
 
 	//Make ICMP Message
 	wm := icmp.Message{
@@ -63,7 +63,8 @@ func main() {
 
 	for i := 1; i <= 20; i++ {
 
-		send_icmp(dst_ip,c,host,"192.168.3.20")
+		send_icmp(dst_ip,c,host,"10.0.0.9")
+//		time.Sleep(10 * time.Millisecond)
 
 	}
 }
