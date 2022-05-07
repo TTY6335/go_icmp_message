@@ -14,5 +14,10 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 .gitignore
+<<<<<<< HEAD
+go.sum
+go.mod
+=======
 go.mod
 go.sum
+>>>>>>> df15d92f42ab32d3624b108a42132eb53100ce1d
