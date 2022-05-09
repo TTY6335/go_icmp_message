@@ -46,7 +46,7 @@ func send_icmp(dst_ip *net.IPAddr,IcmpPcaket *icmp.PacketConn, host_ip string,se
 
 func main() {
 
-	host := "10.0.0.1"
+	host := "8.8.8.8"
 
 	//Start Listen ICPM
 	c, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
@@ -63,8 +63,9 @@ func main() {
 
 	for i := 1; i <= 20; i++ {
 
-		send_icmp(dst_ip,c,host,"10.0.0.9")
-//		time.Sleep(10 * time.Millisecond)
+//		send_icmp(dst_ip,c,host,"10.0.0.9")
+		send_icmp(dst_ip,c,host,"8.8.8.8")
+		time.Sleep(10 * time.Millisecond)
 
 	}
 }
