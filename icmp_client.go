@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	device       string = "eth0"
+	device       string = "enp4s0"
 	snapshot_len int32  = 1024
 	promiscuous  bool   = false
 	err          error
@@ -24,15 +24,6 @@ var (
 )
 
 func main() {
-
-	//check my IP
-	fmt.Println("Check My IP")
-    all_devices, err := pcap.FindAllDevs()
-    if err != nil {
-        log.Fatal(err)
-    }
-
-
 
 	// Open device
 	handle, err = pcap.OpenLive(device, snapshot_len, promiscuous, timeout)
@@ -50,11 +41,12 @@ func main() {
 	fmt.Println("CAPTURE ICMP PACKETS")
 
 	packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
+	fmt.Printf("TIME, FROM, TO\n")
 	for packet := range packetSource.Packets() {
 
 		ipLayer:=packet.Layer(layers.LayerTypeIPv4)
 		ip, _ :=ipLayer.(*layers.IPv4)
-		fmt.Printf("%v From %s to %s\n", time.Now(),ip.SrcIP, ip.DstIP)
+		fmt.Printf("%f,%s,%s\n", float64(time.Now().UnixNano())/1000000000,ip.SrcIP, ip.DstIP)
 
 		applicationLayer := packet.ApplicationLayer()
 		if applicationLayer != nil {
