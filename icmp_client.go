@@ -5,13 +5,13 @@ import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
-	"net"
-	"os"
+	_ "net"
+	_ "os"
 	"log"
 	"time"
 
-	"golang.org/x/net/icmp"
-	"golang.org/x/net/ipv4"
+	_ "golang.org/x/net/icmp"
+	_ "golang.org/x/net/ipv4"
 )
 
 var (
@@ -24,6 +24,16 @@ var (
 )
 
 func main() {
+
+	//check my IP
+	fmt.Println("Check My IP")
+    all_devices, err := pcap.FindAllDevs()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+
+
 	// Open device
 	handle, err = pcap.OpenLive(device, snapshot_len, promiscuous, timeout)
 	if err != nil {
@@ -31,7 +41,7 @@ func main() {
 	}
 	defer handle.Close()
 
-	// Set filter
+	// Set filter capture only icmp
 	var filter string = "icmp"
 	err = handle.SetBPFFilter(filter)
 	if err != nil {
@@ -48,7 +58,6 @@ func main() {
 
 		applicationLayer := packet.ApplicationLayer()
 		if applicationLayer != nil {
-
 
 			message:=string(applicationLayer.Payload())
 			fmt.Println(message)
